@@ -1,5 +1,5 @@
 {
-  "name": "cockpit-aiscot",
+  "name": "aiscot",
   "description": "Cockpit Module for AISCOT",
   "type": "module",
   "main": "index.js",
