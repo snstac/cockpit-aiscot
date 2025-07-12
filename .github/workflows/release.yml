@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install dpkg-dev
-        run: sudo apt-get update && sudo apt-get install -y dpkg-dev
+        run: sudo apt update && sudo apt install -y dpkg-dev
         
       - name: Pacify git's permission check per https://github.blog/2022-04-12-git-security-vulnerability-announced/
         run: git config --global --add safe.directory '*'
