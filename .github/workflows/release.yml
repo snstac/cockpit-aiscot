@@ -11,7 +11,7 @@ jobs:
   source:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/cockpit-project/tasks:latest
+      image: quay.io/cockpit/tasks:latest
       options: --user root
     permissions:
       # create GitHub release
