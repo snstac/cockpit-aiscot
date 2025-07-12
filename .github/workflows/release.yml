@@ -29,7 +29,7 @@ jobs:
         run: git fetch --force origin $(git describe --tags):refs/tags/$(git describe --tags)
 
       - name: Build release
-        run: make dist rpm deb
+        run: make dist deb
 
       - name: Upload Artifacts to GitHub
         uses: actions/upload-artifact@master
@@ -37,7 +37,6 @@ jobs:
           name: artifact-packages
           path: |
             *.deb
-            *.rpm
             *.tar.xz
 
       - name: Create GitHub Release
@@ -58,7 +57,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: |
             *.deb
-            *.rpm
             *.tar.xz
           tag: ${{ github.ref }}
           overwrite: true
