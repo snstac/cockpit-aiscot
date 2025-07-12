@@ -4,6 +4,8 @@
 name: release
 on:
   push:
+    tags:
+      - 'v*' # Match semantic versioning tags like v1.2.3
 
 jobs:
   source:
@@ -34,6 +36,9 @@ jobs:
       - name: Make Debian Package
         run: make deb
 
+      - name: List current directory and subdirectories
+        run: ls -alR
+      
       - name: Upload Artifacts to GitHub
         uses: actions/upload-artifact@master
         with:
