@@ -5,8 +5,8 @@
   },
   "tools": {
     "my-service-manager": {
-      "label": "Service Environment Manager",
-      "path": "/my-service-manager"
+      "label": "AISCOT Service Manager",
+      "path": "/aiscot"
     }
   }
 }
