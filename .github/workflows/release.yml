@@ -4,15 +4,11 @@
 name: release
 on:
   push:
-    tags:
-      # this is a glob, not a regexp
-      - 'v*'
+
 jobs:
   source:
     runs-on: ubuntu-latest
-    container:
-      image: quay.io/cockpit/tasks:latest
-      options: --user root
+
     permissions:
       # create GitHub release
       contents: write
@@ -33,7 +29,10 @@ jobs:
         run: git fetch --force origin $(git describe --tags):refs/tags/$(git describe --tags)
 
       - name: Build release
-        run: make dist deb
+        run: make dist 
+        
+      - name: Make Debian Package
+        run: make deb
 
       - name: Upload Artifacts to GitHub
         uses: actions/upload-artifact@master
