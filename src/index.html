@@ -1,34 +1,135 @@
 <!DOCTYPE html>
-<!--
-Copyright (C) 2017 Red Hat, Inc.
-
-Cockpit is free software; you can redistribute it and/or modify it
-under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-Cockpit is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this package; If not, see <http://www.gnu.org/licenses/>.
--->
-<html lang="en">
+<html>
 <head>
-    <title translate>Cockpit Starter Kit</title>
+    <title>AISCOT Web Manager</title>
     <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="index.css">
-
-    <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript" src="po.js"></script>
+    <link rel="stylesheet" href="../base1/cockpit.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div id="app"></div>
+    <div class="container-fluid">
+        <h1>Service Environment Configuration</h1>
+        
+        <div class="service-card">
+            <h3>Service: <span id="service-display-name">aiscot</span></h3>
+            <p>Environment file: <code id="config-file-path">/etc/default/aiscot</code></p>
+            <p><em>This file contains shell environment variables that are sourced by the service.</em></p>
+            
+            <div id="status-message"></div>
+            
+            <!-- Service Status Display -->
+            <div class="config-section">
+                <h4>Service Status</h4>
+                <div class="service-status-grid">
+                    <div class="status-item">
+                        <span class="status-label">Active State:</span>
+                        <span id="service-active-state" class="status-value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Load State:</span>
+                        <span id="service-load-state" class="status-value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Enabled:</span>
+                        <span id="service-enabled" class="status-value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Main PID:</span>
+                        <span id="service-main-pid" class="status-value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Memory Usage:</span>
+                        <span id="service-memory" class="status-value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Uptime:</span>
+                        <span id="service-uptime" class="status-value">Loading...</span>
+                    </div>
+                </div>
+                <div class="service-controls">
+                    <button class="btn-success" id="start-service-btn">Start</button>
+                    <button class="btn-danger" id="stop-service-btn">Stop</button>
+                    <button class="btn-warning" id="restart-service-btn">Restart</button>
+                    <button class="btn-primary" id="reload-service-btn">Reload</button>
+                    <button class="btn-success" id="enable-service-btn">Enable</button>
+                    <button class="btn-warning" id="disable-service-btn">Disable</button>
+                    <button class="btn-primary" id="refresh-status-btn">Refresh Status</button>
+                </div>
+            </div>
+            
+            <!-- Service Logs -->
+            <div class="config-section">
+                <h4>Service Logs</h4>
+                <div class="log-controls">
+                    <button class="btn-primary" id="show-logs-btn">Show Recent Logs</button>
+                    <button class="btn-warning" id="follow-logs-btn">Follow Logs</button>
+                    <button class="btn-danger hidden" id="stop-logs-btn">Stop Following</button>
+                    <select id="log-lines-select">
+                        <option value="50">Last 50 lines</option>
+                        <option value="100" selected>Last 100 lines</option>
+                        <option value="200">Last 200 lines</option>
+                        <option value="500">Last 500 lines</option>
+                    </select>
+                </div>
+                <div id="service-logs" class="service-logs hidden">
+                    <div id="log-content">Click "Show Recent Logs" to view logs</div>
+                </div>
+            </div>
+
+            <!-- Configuration Control -->
+            <div class="config-section">
+                <h4>Configuration Control</h4>
+                <button class="btn-primary" id="reload-config-btn">Reload Configuration</button>
+                <button class="btn-success" id="save-restart-btn">Save & Restart Service</button>
+                <button class="btn-warning" id="save-reload-btn">Save & Reload Service</button>
+                <button class="btn-primary" id="test-env-btn">Test Environment Sourcing</button>
+            </div>
+            
+            <!-- Environment Variables -->
+            <div class="config-section">
+                <h4>Environment Variables</h4>
+                <div id="env-variables">
+                    <!-- Environment variables will be loaded here -->
+                </div>
+                
+                <!-- Add new variable -->
+                <div class="add-var-section">
+                    <input type="text" id="new-var-name" placeholder="VARIABLE_NAME" class="new-var-input">
+                    <input type="text" id="new-var-value" placeholder="value" class="new-var-input">
+                    <button class="btn-success" id="add-variable-btn">Add Variable</button>
+                </div>
+                
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="validate-shell" checked> Validate shell syntax
+                    </label>
+                    <label>
+                        <input type="checkbox" id="auto-quote" checked> Auto-quote values with spaces
+                    </label>
+                    <label>
+                        <input type="checkbox" id="preserve-comments" checked> Preserve comments and formatting
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Shell Preview -->
+            <div class="config-section">
+                <h4>Generated Shell Script Preview</h4>
+                <div id="shell-preview" class="shell-preview">Loading...</div>
+                <button class="btn-primary" id="refresh-preview-btn">Refresh Preview</button>
+                <button class="btn-warning" id="validate-syntax-btn">Validate Shell Syntax</button>
+            </div>
+            
+            <!-- Current Environment Test -->
+            <div class="config-section">
+                <h4>Environment Test</h4>
+                <p>Test how the environment file would be sourced:</p>
+                <div id="env-test-output" class="shell-preview env-test-output-custom">Click "Test Environment Sourcing" to see results</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../base1/cockpit.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
