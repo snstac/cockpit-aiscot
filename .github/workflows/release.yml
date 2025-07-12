@@ -25,8 +25,8 @@ jobs:
       - name: Pacify git's permission check per https://github.blog/2022-04-12-git-security-vulnerability-announced/
         run: git config --global --add safe.directory '*'
 
-      - name: Workaround for https://github.com/actions/checkout/pull/697
-        run: git fetch --force origin $(git describe --tags):refs/tags/$(git describe --tags)
+      # - name: Workaround for https://github.com/actions/checkout/pull/697
+      #   run: git fetch --force origin $(git describe --tags):refs/tags/$(git describe --tags)
 
       - name: Build release
         run: make dist 
