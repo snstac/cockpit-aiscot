@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="addon">
-  <id>org.cockpit_project.starter_kit</id>
+  <id>com.snstac.cockpit_aiscot</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>Starter Kit</name>
   <summary>Scaffolding for a cockpit module</summary>
@@ -12,12 +12,12 @@
       this with a real description.
     </p>
   </description>
-  <extends>org.cockpit_project.cockpit</extends>
-  <launchable type="cockpit-manifest">starter-kit</launchable>
-  <url type="homepage">https://github.com/cockpit-project/starter-kit</url>
-  <url type="bugtracker">https://github.com/cockpit-project/starter-kit/issues</url>
-  <update_contact>cockpit-devel_AT_lists.fedorahosted.org</update_contact>
-  <developer id="org.cockpit-project">
-    <name>Cockpit Project</name>
+  <extends>com.snstac.cockpit_aiscot</extends>
+  <launchable type="cockpit-manifest">aiscot</launchable>
+  <url type="homepage">https://github.com/snstac/cockpit-aiscot</url>
+  <url type="bugtracker">https://github.com/snstac/cockpit-aiscot/issues</url>
+  <update_contact>info@snstac.com</update_contact>
+  <developer id="com.snstac">
+    <name>Sensors &amp; Signals</name>
   </developer>
 </component>
