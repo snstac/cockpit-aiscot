@@ -31,7 +31,7 @@ jobs:
       #   run: git fetch --force origin $(git describe --tags):refs/tags/$(git describe --tags)
 
       - name: Build release
-        run: make dist rpm deb
+        run: make deb
 
       - name: Upload Artifacts to GitHub
         uses: actions/upload-artifact@master
