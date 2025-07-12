@@ -22,6 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      #
       # https://github.blog/2022-04-12-git-security-vulnerability-announced/
       # - name: Pacify git's permission check
       #   run: git config --global --add safe.directory /__w/
