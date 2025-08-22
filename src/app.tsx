@@ -1,7 +1,7 @@
 /*
- * This file is part of Cockpit.
+ * This file is part of cockpit-aiscot
  *
- * Copyright (C) 2017 Red Hat, Inc.
+ * Copyright Sensors & Signals LLC https://www.snstac.com/
  *
  * Cockpit is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -48,7 +48,6 @@ import cockpit from 'cockpit';
 import { capitalize } from '@patternfly/react-core';
 
 const _ = cockpit.gettext;
-
 
 export const Application: React.FC = () => {
     // Configuration
@@ -388,6 +387,38 @@ export const Application: React.FC = () => {
     );
     
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+    useEffect(() => {
+        async function readConfigFileAndPopulateForm() {
+            try {
+                const content = await cockpit.file(CONFIG_FILE, { superuser: "try" }).read();
+                setConfigFileContents(content);
+
+                // Parse config file lines
+                const lines = content.split('\n');
+                const newForm: Record<string, string> = { ...envVarForm };
+                for (const line of lines) {
+                    // Ignore comments and empty lines
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith('#')) continue;
+                    const match = trimmed.match(/^([A-Za-z0-9_]+)=(.*)$/);
+                    if (match) {
+                        let [, key, value] = match;
+                        // Remove quotes if present
+                        value = value.replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+                        if (key in CONF_PARAMS) {
+                            newForm[key] = value;
+                        }
+                    }
+                }
+                setEnvVarForm(newForm);
+            } catch (err) {
+                // Ignore error, configFileContents already set by other effect
+            }
+        }
+        readConfigFileAndPopulateForm();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [configFileContents]);
 
     // Validation helper
     function validateField(key: string, value: string): string {
