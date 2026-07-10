@@ -81,6 +81,38 @@ export const CONF_PARAMS: Record<string, EnvVarDefinition> = {
         required: false,
     },
 
+    VESSEL_NAME_PREFIX: {
+        type: 'boolean',
+        description: 'Prepend conventional ship-type callsign prefixes: T/B (tug), P/V (pilot), M/V (cargo), M/T (tanker), F/V, S/V, SAR, A/P, L/E',
+        defaultValue: 'true',
+        validation: /^(true|false|yes|no|1|0)$/i,
+        required: false,
+    },
+
+    SHIPCLASS_COLORS: {
+        type: 'boolean',
+        description: 'Color vessel markers by AIS-catcher ship class: tankers red, cargo green, passenger blue, special brown, HSC yellow, fishing pink',
+        defaultValue: 'true',
+        validation: /^(true|false|yes|no|1|0)$/i,
+        required: false,
+    },
+
+    SHIPCLASS_ICONS: {
+        type: 'boolean',
+        description: 'Use ship-class marker icons from the bundled ais-ships-iconset.zip (dart underway / circle stopped). Import the iconset into TAK clients first — see the ATAK Vessel Iconset card',
+        defaultValue: 'false',
+        validation: /^(true|false|yes|no|1|0)$/i,
+        required: false,
+    },
+
+    UNDERWAY_ONLY: {
+        type: 'boolean',
+        description: 'Only forward vessels that are underway; drop parked (anchored/moored/aground) hulls so anchorage clutter does not drown the traffic picture',
+        defaultValue: 'false',
+        validation: /^(true|false|yes|no|1|0)$/i,
+        required: false,
+    },
+
     MID_DB_FILE: {
         type: 'path',
         description: 'Path to the MID database file, used for decoding AIS messages',
