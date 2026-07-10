@@ -30,6 +30,7 @@ import {
     parseEnvDefault,
     serializeEnvDefault,
 } from './envDefaultFile';
+import { IconsetCard } from './iconsetCard';
 import { ServiceManagementCard, type ToastMessage } from './serviceCard';
 import { TlsUploadCard } from './tlsCard';
 
@@ -310,6 +311,8 @@ export const Application: React.FC = () => {
             <ServiceManagementCard serviceName={SERVICE_NAME} onToast={setToast} />
 
             <TlsUploadCard onToast={setToast} onInstalledPaths={onTlsInstalled} />
+
+            <IconsetCard />
 
             <Card
                 className="aiscot-expandable-card"
