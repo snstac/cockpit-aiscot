@@ -417,7 +417,7 @@ export const Application: React.FC = () => {
                                                             }
                                                             onChange={ev =>
                                                                 handleEnvVarChange(key, ev.target.value)}
-                                                            style={{ width: '300px', fontFamily: 'monospace' }}
+                                                            style={{ fontFamily: 'monospace' }}
                                                                 />
                                                             )}
                                                     {formErrors[key] && (
