@@ -22,17 +22,19 @@ import { Checkbox } from '@patternfly/react-core';
 
 import cockpit from 'cockpit';
 
-import { CONF_PARAMS } from './conf';
 import {
     type DefaultEnvLine,
+    ServiceManagementCard,
+    TlsUploadCard,
+    type ToastMessage,
     defaultFormFromConf,
     mergeFormValues,
     parseEnvDefault,
     serializeEnvDefault,
-} from './envDefaultFile';
+} from '@snstac/cockpit-shared';
+
+import { CONF_PARAMS } from './conf';
 import { IconsetCard } from './iconsetCard';
-import { ServiceManagementCard, type ToastMessage } from './serviceCard';
-import { TlsUploadCard } from './tlsCard';
 
 const _ = cockpit.gettext;
 
@@ -138,7 +140,7 @@ export const Application: React.FC = () => {
             loadFromDisk();
         });
         return () => {
-            if (watcher && typeof watcher.close === 'function') watcher.close();
+            if (watcher && typeof watcher.remove === 'function') watcher.remove();
         };
     }, [loadFromDisk]);
 
@@ -181,7 +183,7 @@ export const Application: React.FC = () => {
                 return;
             }
 
-            const newConfig = serializeEnvDefault(fileLines, envVarForm, CONF_PARAMS);
+            const newConfig = serializeEnvDefault(fileLines, envVarForm, CONF_PARAMS, '# Added by Cockpit AISCOT');
             setSaveBusy(true);
             try {
                 await cockpit
@@ -310,7 +312,13 @@ export const Application: React.FC = () => {
 
             <ServiceManagementCard serviceName={SERVICE_NAME} onToast={setToast} />
 
-            <TlsUploadCard onToast={setToast} onInstalledPaths={onTlsInstalled} />
+            <TlsUploadCard
+                tlsDir="/etc/aiscot/tls"
+                keyUser="aiscot"
+                testIdPrefix="aiscot"
+                onToast={setToast}
+                onInstalledPaths={onTlsInstalled}
+            />
 
             <IconsetCard />
 
